@@ -38,13 +38,7 @@ test:
   source_files:
     - tests
   imports:
-    # On macOS, TensorFlow has a dependency on Keras. Keras >3 can use different backends like PyTorch or TensorFlow.
-    # For some reason, on macOS, PyTorch is selected as the default backend,
-    # and testing 'causalimpact' import causes a missing PyTorch dependency error.
-    # Setting the following line in the build section doesn't help, and setting it in the test section
-    # doesn't make sense because imports are checked before the test commands run.
-    # - export KERAS_BACKEND=tensorflow  # [osx]
-    - causalimpact  # [not osx]
+    - causalimpact
     - causalimpact.__version__
     - causalimpact.data
     - causalimpact.inferences
@@ -65,6 +59,11 @@ test:
     - pip
     - pytest
     - mock
+    # TensorFlow has a dependency on Keras. Keras >3 can use different backends like PyTorch or TensorFlow.
+    # For some reason, on CI macOS, PyTorch is selected as the default backend,
+    # and testing 'causalimpact' imports cause a missing PyTorch dependency error.
+    # Setting the KERAS_BACKEND=tensorflow doesn't help
+    - pytorch  # [osx]
 
 about:
   home: https://github.com/WillianFuks/tfcausalimpact
@@ -87,3 +86,4 @@ extra:
     - thewchan
   skip-lints:
     - missing_pip_check  # [win]
+    - missing_imports_or_run_test_py  # [osx]
