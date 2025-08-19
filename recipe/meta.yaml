@@ -48,6 +48,7 @@ test:
     - causalimpact.plot
     - causalimpact.summary
   commands:
+    - export KERAS_BACKEND="tensorflow"  # [osx]
     # Skip pip check on Windows due to conda/pip metadata conflict:
     # tf-keras conda package references pip tensorflow dependency but we have conda tensorflow
     - pip check  # [not win]
@@ -79,3 +80,5 @@ about:
 extra:
   recipe-maintainers:
     - thewchan
+  skip-lints:
+    - missing_pip_check  # [win]
