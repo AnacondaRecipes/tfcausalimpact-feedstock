@@ -48,7 +48,9 @@ test:
     - causalimpact.plot
     - causalimpact.summary
   commands:
-    - pip check
+    # Skip pip check on Windows due to conda/pip metadata conflict:
+    # tf-keras conda package references pip tensorflow dependency but we have conda tensorflow
+    - pip check  # [not win]
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     - pytest -v tests
     # llm testing
