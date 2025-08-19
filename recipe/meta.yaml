@@ -10,7 +10,9 @@ source:
   sha256: 3e2c588b2bac36557c9b2aefd30c15e0e2ccfa4609828b47c70612a4b5632490
 
 build:
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  script: 
+    - export KERAS_BACKEND=tensorflow  # [osx]
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
   skip: True  # [py>312]
 
@@ -48,7 +50,6 @@ test:
     - causalimpact.plot
     - causalimpact.summary
   commands:
-    - export KERAS_BACKEND="tensorflow"  # [osx]
     # Skip pip check on Windows due to conda/pip metadata conflict:
     # tf-keras conda package references pip tensorflow dependency but we have conda tensorflow
     - pip check  # [not win]
